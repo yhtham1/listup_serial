@@ -1,0 +1,1 @@
+pyinstaller listup_serial.py --onefile --noconsole

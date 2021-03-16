@@ -4,33 +4,32 @@
 
 from PyQt5.QtCore import QCoreApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget,QApplication,QHBoxLayout,QVBoxLayout,QPushButton,QLabel,QLineEdit
+from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
 import serial.tools.list_ports
-
 
 
 def debug_msg(p):
 	print('----------------------------------------------------------')
-	print('device       :{}'.format(p.device       ))
-	print('name         :{}'.format(p.name         ))
-	print('description  :{}'.format(p.description  ))
-	print('hwid         :{}'.format(p.hwid         ))
+	print('device       :{}'.format(p.device))
+	print('name         :{}'.format(p.name))
+	print('description  :{}'.format(p.description))
+	print('hwid         :{}'.format(p.hwid))
 	print('serial_number:{}'.format(p.serial_number))
-	print('location     :{}'.format(p.location     ))
-	print('manufacturer :{}'.format(p.manufacturer ))
-	print('product      :{}'.format(p.product      ))
-	print('interface    :{}'.format(p.interface    ))
+	print('location     :{}'.format(p.location))
+	print('manufacturer :{}'.format(p.manufacturer))
+	print('product      :{}'.format(p.product))
+	print('interface    :{}'.format(p.interface))
 
 
-def getusbname( vid, pid ):
+def getusbname(vid, pid):
 	ans = ''
-	if 0x0483==vid and 0x3752==pid :
+	if 0x0483 == vid and 0x3752 == pid:
 		ans = ' ST-LINK FRISK'
-	elif 0x0483==vid and 0x374b==pid :
+	elif 0x0483 == vid and 0x374b == pid:
 		ans = ' ST-LINK V2'
-	elif 0x067b==vid and 0x2303==pid :
+	elif 0x067b == vid and 0x2303 == pid:
 		ans = ' PL2303'
-	elif 0x0403==vid and 0x6001==pid :
+	elif 0x0403 == vid and 0x6001 == pid:
 		ans = ' FT232系 秋月の黒/グレイのやつ'
 	else:
 		ans = ' ----VID:{:04X} PID:{:04X} '.format(vid, pid)
@@ -38,21 +37,18 @@ def getusbname( vid, pid ):
 
 
 class ListupSerialWindow(QtWidgets.QMainWindow):
+	ports = []
 
-
-
-	ports=[]
 	def add_one_line(xt, layout, p):
 		ah = QHBoxLayout()
 		b1 = QLabel(p.device)
-		b1.setFixedWidth(50)	#ラベルサイズの固定
+		b1.setFixedWidth(50)  # ラベルサイズの固定
 		b2 = QLineEdit(p.description)
 		b2.setToolTip(p.hwid)
-		ah.addWidget( b1 )
-		ah.addWidget( b2 )
+		ah.addWidget(b1)
+		ah.addWidget(b2)
 		layout.addLayout(ah)
 		return
-
 
 	def initUI(self):
 		h1 = QHBoxLayout()
@@ -68,34 +64,34 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		for p in self.ports:
 			com_1 = []
 			cn = p.device
-			if 0==cn.find('COM'):	#ソートキーの抽出
+			if 0 == cn.find('COM'):  # ソートキーの抽出
 				cn1 = int(cn[3:5])
-#				print('{}->{}'.format(cn,cn1))
-				com_1.append(cn1)	#ソートキー
+				#				print('{}->{}'.format(cn,cn1))
+				com_1.append(cn1)  # ソートキー
 			else:
-				com_1.append(cn)	#ソートキー
-#			print('-------------cn:{}'.format(cn))
+				com_1.append(cn)  # ソートキー
+			#			print('-------------cn:{}'.format(cn))
 			debug_msg(p)
 			desc = ''
 			desc = p.description
 			if p.vid:
-#				print('vid          :{:04X}'.format(p.vid           ))
-#				print('pid          :{:04X}'.format(p.pid           ))
-				p.description += getusbname( p.vid, p.pid )
-			com_1.append(p)			# ポート１個分のデータ		[1]
+				#				print('vid          :{:04X}'.format(p.vid           ))
+				#				print('pid          :{:04X}'.format(p.pid           ))
+				p.description += getusbname(p.vid, p.pid)
+			com_1.append(p)  # ポート１個分のデータ		[1]
 			com_list.append(com_1)
-		
-		for p in sorted(com_list):	#COM番号でソートする
-			self.add_one_line(v1,p[1] )   #,p[2].description, p[2].hwid )
-#		print(sorted(com_list))
+
+		for p in sorted(com_list):  # COM番号でソートする
+			self.add_one_line(v1, p[1])  # ,p[2].description, p[2].hwid )
+		#		print(sorted(com_list))
 		v1.addStretch()
 
 		h1.addLayout(v1)
 		h1.addLayout(v2)
 		return h1
 
-#		self.setLayout(h1)
-#		self.setWindowTitle('LISTUP SERIAL PORTS')
+	#		self.setLayout(h1)
+	#		self.setWindowTitle('LISTUP SERIAL PORTS')
 
 	def __init__(self, parent=None):
 		super(ListupSerialWindow, self).__init__(parent)
@@ -121,19 +117,14 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		widget = self.centralWidget()
 		if widget is not None:
 			widget.deleteLater()
-		self.ports=list(serial.tools.list_ports.comports())
+		self.ports = list(serial.tools.list_ports.comports())
 		# create new container
 		widget = QtWidgets.QWidget()
 		self.setCentralWidget(widget)
 		h = self.initUI()
-		widget.setLayout( h )
+		widget.setLayout(h)
 		self.setWindowTitle('LISTUP SERIAL PORTS')
-		self.setGeometry(300, 50,700, 80)
-
-
-
-
-
+		self.setGeometry(300, 50, 700, 80)
 
 
 if __name__ == "__main__":
@@ -141,6 +132,6 @@ if __name__ == "__main__":
 
 	app = QtWidgets.QApplication(sys.argv)
 	w = ListupSerialWindow()
-#	w.setSize()
+	#	w.setSize()
 	w.show()
 	sys.exit(app.exec_())

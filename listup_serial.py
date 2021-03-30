@@ -21,17 +21,24 @@ def debug_msg(p):
 	print('interface    :{}'.format(p.interface))
 
 
-def getusbname(vid, pid):
+def getusbname(p):
+	vid = p.vid
+	pid = p.pid
+	sn = p.serial_number
 	ans = ''
+	if 0x0403 == vid:
+		ans += ' FT232系'
+		if pid == 0x6015:
+			ans += ' FT230X S/N:{}'.format(p.serial_number)
 	if 0x0483 == vid and 0x3752 == pid:
-		ans = ' ST-LINK FRISK'
+		ans = ' ST-LINK FRISK {}'.format(sn)
 	elif 0x0483 == vid and 0x374b == pid:
-		ans = ' ST-LINK V2'
+		ans = ' ST-LINK V2 {}'.format(sn)
 	elif 0x067b == vid and 0x2303 == pid:
 		ans = ' PL2303'
 	elif 0x0403 == vid and 0x6001 == pid:
-		ans = ' FT232系 秋月の黒/グレイのやつ'
-	else:
+		ans += ' 秋月の黒/グレイのやつ S/N:{} {}'.format(sn,p.manufacturer)
+	if ans == '':
 		ans = ' ----VID:{:04X} PID:{:04X} '.format(vid, pid)
 	return ans
 
@@ -77,7 +84,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			if p.vid:
 				#				print('vid          :{:04X}'.format(p.vid           ))
 				#				print('pid          :{:04X}'.format(p.pid           ))
-				p.description += getusbname(p.vid, p.pid)
+				p.description += getusbname(p)
 			com_1.append(p)  # ポート１個分のデータ		[1]
 			com_list.append(com_1)
 

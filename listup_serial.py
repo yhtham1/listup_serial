@@ -130,7 +130,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.setCentralWidget(widget)
 		h = self.initUI()
 		widget.setLayout(h)
-		self.setWindowTitle('LISTUP SERIAL PORTS')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2021/4/3')
 		self.setGeometry(300, 50, 700, 80)
 
 

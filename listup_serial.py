@@ -46,7 +46,8 @@ def getusbname(p):
 class ListupSerialWindow(QtWidgets.QMainWindow):
 	ports = []
 
-	def add_one_line(xt, layout, p):
+	@staticmethod
+	def add_one_line(layout, p):
 		ah = QHBoxLayout()
 		b1 = QLabel(p.device)
 		b1.setFixedWidth(50)  # ラベルサイズの固定

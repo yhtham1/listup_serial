@@ -59,7 +59,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		layout.addLayout(ah)
 		return
 
-	def initUI(self):
+	def makeLayout(self):
 		h1 = QHBoxLayout()
 		v1 = QVBoxLayout()
 		v2 = QVBoxLayout()
@@ -67,9 +67,11 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		btn1 = QPushButton('QUIT')
 		btn1.clicked.connect(QCoreApplication.instance().quit)
 		v2.addWidget(btn1)
+		btn1 = QPushButton('REFRESH')
+		btn1.clicked.connect(self.setSize)
+		v2.addWidget(btn1)
 		v2.addStretch()
 		com_list = []
-		idx = -1
 		for p in self.ports:
 			com_1 = []
 			cn = p.device
@@ -81,8 +83,6 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 				com_1.append(cn)  # ソートキー
 			#			print('-------------cn:{}'.format(cn))
 			debug_msg(p)
-			desc = ''
-			desc = p.description
 			if p.vid:
 				#				print('vid          :{:04X}'.format(p.vid           ))
 				#				print('pid          :{:04X}'.format(p.pid           ))
@@ -105,7 +105,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 	def __init__(self, parent=None):
 		super(ListupSerialWindow, self).__init__(parent)
 		levels = [
-			(4, 4, "refresh"),
+			(4, 4, "M refresh"),
 		]
 		menu = self.menuBar().addMenu("&Menu")
 		for r, c, name in levels:
@@ -117,8 +117,8 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 
 	@QtCore.pyqtSlot()
 	def on_triggered(self):
-		action = self.sender()
-		r, c = action.data()
+		# action = self.sender()
+		# r, c = action.data()
 		self.setSize()
 
 	def setSize(self):
@@ -130,10 +130,10 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		# create new container
 		widget = QtWidgets.QWidget()
 		self.setCentralWidget(widget)
-		h = self.initUI()
+		h = self.makeLayout()
 		widget.setLayout(h)
 		self.setWindowTitle('LISTUP SERIAL PORTS 2021/4/3')
-		self.setGeometry(300, 50, 700, 80)
+		self.setGeometry(300, 50, 800, 80)
 
 
 if __name__ == "__main__":
@@ -141,6 +141,5 @@ if __name__ == "__main__":
 
 	app = QtWidgets.QApplication(sys.argv)
 	w = ListupSerialWindow()
-	#	w.setSize()
 	w.show()
 	sys.exit(app.exec_())

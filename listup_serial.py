@@ -26,18 +26,19 @@ def getusbname(p):
 	pid = p.pid
 	sn = p.serial_number
 	ans = ''
-	if 0x0403 == vid:
-		ans += ' FT232系'
+	if 0x0403 == vid:  # FTDI
 		if pid == 0x6015:
 			ans += ' FT230X S/N:{}'.format(p.serial_number)
-	if 0x0483 == vid and 0x3752 == pid:
-		ans = ' ST-LINK FRISK {}'.format(sn)
-	elif 0x0483 == vid and 0x374b == pid:
-		ans = ' ST-LINK V2 {}'.format(sn)
+		elif 0x6001 == pid:
+			ans += ' 秋月の黒/グレイのやつ S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' FT232系'
+	elif 0x0483 == vid :  # ST-MICRO
+		if 0x3752 == pid:
+			ans = ' ST-LINK FRISK {}'.format(sn)
+		elif 0x374b == pid:
+			ans = ' ST-LINK V2 {}'.format(sn)
 	elif 0x067b == vid and 0x2303 == pid:
 		ans = ' PL2303'
-	elif 0x0403 == vid and 0x6001 == pid:
-		ans += ' 秋月の黒/グレイのやつ S/N:{} {}'.format(sn,p.manufacturer)
 	if ans == '':
 		ans = ' ----VID:{:04X} PID:{:04X} '.format(vid, pid)
 	return ans

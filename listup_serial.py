@@ -10,15 +10,15 @@ import serial.tools.list_ports
 
 def debug_msg(p):
 	print('----------------------------------------------------------')
-	print('device       :{}'.format(p.device))
-	print('name         :{}'.format(p.name))
+	print('device	   :{}'.format(p.device))
+	print('name		 :{}'.format(p.name))
 	print('description  :{}'.format(p.description))
-	print('hwid         :{}'.format(p.hwid))
+	print('hwid		 :{}'.format(p.hwid))
 	print('serial_number:{}'.format(p.serial_number))
-	print('location     :{}'.format(p.location))
+	print('location	 :{}'.format(p.location))
 	print('manufacturer :{}'.format(p.manufacturer))
-	print('product      :{}'.format(p.product))
-	print('interface    :{}'.format(p.interface))
+	print('product	  :{}'.format(p.product))
+	print('interface	:{}'.format(p.interface))
 
 
 def getusbname(p):
@@ -32,7 +32,7 @@ def getusbname(p):
 		elif 0x6001 == pid:
 			ans += ' 秋月の黒/グレイのやつ S/N:{} {}'.format(sn, p.manufacturer)
 		ans += ' FT232系'
-	elif 0x0483 == vid :  # ST-MICRO
+	elif 0x0483 == vid:  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)
 		elif 0x374b == pid:
@@ -84,8 +84,8 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			#			print('-------------cn:{}'.format(cn))
 			debug_msg(p)
 			if p.vid:
-				#				print('vid          :{:04X}'.format(p.vid           ))
-				#				print('pid          :{:04X}'.format(p.pid           ))
+				#				print('vid		  :{:04X}'.format(p.vid		   ))
+				#				print('pid		  :{:04X}'.format(p.pid		   ))
 				p.description += getusbname(p)
 			com_1.append(p)  # ポート１個分のデータ		[1]
 			com_list.append(com_1)

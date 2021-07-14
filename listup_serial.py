@@ -7,7 +7,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
 import serial.tools.list_ports
 
-
+# 1:
+# 2:A90DAHU5A
+# 3:A9GB069DA
+# 4:FTHG96PPA
 def debug_msg(p):
 	print('----------------------------------------------------------')
 	print('device       :{}'.format(p.device))
@@ -30,8 +33,17 @@ def getusbname(p):
 		if pid == 0x6015:
 			ans += ' FT230X S/N:{}'.format(p.serial_number)
 		elif 0x6001 == pid:
-			ans += ' 秋月の黒/グレイのやつ S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' FT232系'
+			ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
+		if 'A90DAHU5Ax' == p.serial_number:
+			ans += '#1/4'
+		elif 'A90DAHU5A' == p.serial_number:
+			ans += '#2/4'
+		elif 'A9GB069DA' == p.serial_number:
+			ans += '#3/4'
+		elif 'FTHG96PPA' == p.serial_number:
+			ans += '#4/4'
+		else:
+			ans += ' FT232系'
 	elif 0x0483 == vid :  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)
@@ -39,6 +51,8 @@ def getusbname(p):
 			ans = ' ST-LINK V2 {}'.format(sn)
 	elif 0x067b == vid and 0x2303 == pid:
 		ans = ' PL2303'
+	elif 0x10c4 == vid and 0xea60 == pid: # CP210X ESP32等
+		ans = ' S/N:{}'.format(p.serial_number)
 	if ans == '':
 		ans = ' ----VID:{:04X} PID:{:04X} '.format(vid, pid)
 	return ans
@@ -76,7 +90,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			com_1 = []
 			cn = p.device
 			if 0 == cn.find('COM'):  # ソートキーの抽出
-				cn1 = int(cn[3:5])
+				cn1 = int(cn[3:])   # 'COM1'  'COM255'
 				#				print('{}->{}'.format(cn,cn1))
 				com_1.append(cn1)  # ソートキー
 			else:
@@ -132,7 +146,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.setCentralWidget(widget)
 		h = self.makeLayout()
 		widget.setLayout(h)
-		self.setWindowTitle('LISTUP SERIAL PORTS 2021/4/3')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2021/7/14')
 		self.setGeometry(300, 50, 800, 80)
 
 

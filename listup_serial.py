@@ -33,24 +33,31 @@ def getusbname(p):
 		if pid == 0x6015:
 			ans += ' FT230X S/N:{}'.format(p.serial_number)
 		elif 0x6001 == pid:
-			ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-		if 'A90DAHU5Ax' == p.serial_number:
-			ans += '#1/4'
-		elif 'A90DAHU5A' == p.serial_number:
-			ans += '#2/4'
-		elif 'A9GB069DA' == p.serial_number:
-			ans += '#3/4'
-		elif 'FTHG96PPA' == p.serial_number:
-			ans += '#4/4'
-		else:
-			ans += ' FT232系'
+			if 'A90DAHU5Ax' == p.serial_number:
+				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
+				ans += '#1/4'
+			elif 'A90DAHU5A' == p.serial_number:
+				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
+				ans += '#2/4'
+			elif 'A9GB069DA' == p.serial_number:
+				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
+				ans += '#3/4'
+			elif 'FTHG96PPA' == p.serial_number:
+				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
+				ans += '#4/4'
+			elif 'AQ00JKREA' == p.serial_number:
+				ans += ' RS485 DSD TECH SH-U11 S/N:{}'.format(sn)
+			elif 'FTBTXRP1A' == p.serial_number:
+				ans += ' RS485 EasySync S/N:{}'.format(sn)
+			else:
+				ans += ' FT232系 S/N:{} {} '.format(sn, p.manufacturer)
 	elif 0x0483 == vid :  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)
 		elif 0x374b == pid:
 			ans = ' ST-LINK V2 {}'.format(sn)
 	elif 0x067b == vid and 0x2303 == pid:
-		ans = ' PL2303'
+		ans = ' PL2303 S/N:[{}]'.format(sn)
 	elif 0x10c4 == vid and 0xea60 == pid: # CP210X ESP32等
 		ans = ' S/N:{}'.format(p.serial_number)
 	if ans == '':

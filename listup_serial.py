@@ -7,7 +7,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
 import serial.tools.list_ports
 
-# 1:
+# 1:XXXXXXXXX
 # 2:A90DAHU5A
 # 3:A9GB069DA
 # 4:FTHG96PPA

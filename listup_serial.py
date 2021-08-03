@@ -59,7 +59,12 @@ def getusbname(p):
 	elif 0x067b == vid and 0x2303 == pid:
 		ans = ' PL2303 S/N:[{}]'.format(sn)
 	elif 0x10c4 == vid and 0xea60 == pid: # CP210X ESP32等
-		ans = ' S/N:{}'.format(p.serial_number)
+		if p.serial_number == '0216123D':
+			ans = ' M5Stack Fire '+' S/N:{}'.format(p.serial_number)
+		elif p.serial_number == '023592EE':
+			ans = ' M5Stack Core2 ' + ' S/N:{}'.format(p.serial_number)
+		else:
+			ans = ' S/N:{}'.format(p.serial_number)
 	if ans == '':
 		ans = ' ----VID:{:04X} PID:{:04X} '.format(vid, pid)
 	return ans

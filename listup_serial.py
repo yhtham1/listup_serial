@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 # -*- coding: utf-8 -*-
-
+# coding: utf-8
 
 from PyQt5.QtCore import QCoreApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -11,6 +11,18 @@ import serial.tools.list_ports
 # 2:A90DAHU5A
 # 3:A9GB069DA
 # 4:FTHG96PPA
+# 5:FTHG80GEA
+# 6:FTHG80GEA
+
+
+
+
+def sjis2utf8( sjis ):
+	b = sjis.encode('cp932')
+	u = b.decode('utf8')
+	return u
+
+
 def debug_msg(p):
 	print('----------------------------------------------------------')
 	print('device       :{}'.format(p.device))
@@ -23,7 +35,6 @@ def debug_msg(p):
 	print('product      :{}'.format(p.product))
 	print('interface    :{}'.format(p.interface))
 
-
 def getusbname(p):
 	vid = p.vid
 	pid = p.pid
@@ -33,18 +44,24 @@ def getusbname(p):
 		if pid == 0x6015:
 			ans += ' FT230X S/N:{}'.format(p.serial_number)
 		elif 0x6001 == pid:
-			if 'A90DAHU5Ax' == p.serial_number:
+			if 'FTHGAIL5A' == p.serial_number:
 				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#1/4'
+				ans += '#1/6'
 			elif 'A90DAHU5A' == p.serial_number:
 				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#2/4'
+				ans += '#2/6'
 			elif 'A9GB069DA' == p.serial_number:
 				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#3/4'
+				ans += '#3/6'
 			elif 'FTHG96PPA' == p.serial_number:
 				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#4/4'
+				ans += '#4/6'
+			elif 'FTHG7WCXA' == p.serial_number:
+				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
+				ans += '#5/6'
+			elif 'FTHG80GEA' == p.serial_number:
+				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
+				ans += '#6/6'
 			elif 'AQ00JKREA' == p.serial_number:
 				ans += ' RS485 DSD TECH SH-U11 S/N:{}'.format(sn)
 			elif 'FTBTXRP1A' == p.serial_number:
@@ -153,14 +170,16 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.setCentralWidget(widget)
 		h = self.makeLayout()
 		widget.setLayout(h)
-		self.setWindowTitle('LISTUP SERIAL PORTS 2021/7/14')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2021-12-22')
 		self.setGeometry(300, 50, 800, 80)
 
-
-if __name__ == "__main__":
+def main():
 	import sys
-
 	app = QtWidgets.QApplication(sys.argv)
 	w = ListupSerialWindow()
 	w.show()
 	sys.exit(app.exec_())
+
+if __name__ == "__main__":
+	main()
+

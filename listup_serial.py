@@ -40,6 +40,9 @@ def getusbname(p):
 	pid = p.pid
 	sn = p.serial_number
 	ans = ''
+	if 0x2833 == vid:  # FTDI
+		if pid == 0x0051:
+			ans += ' Oculus Rift-S '
 	if 0x0403 == vid:  # FTDI
 		if pid == 0x6015:
 			ans += ' FT230X S/N:{}'.format(p.serial_number)

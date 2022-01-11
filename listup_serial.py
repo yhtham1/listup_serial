@@ -18,9 +18,9 @@ import serial.tools.list_ports
 
 
 def sjis2utf8( sjis ):
-	b = sjis.encode('cp932')
-	u = b.decode('utf8')
-	return u
+	# b = sjis.encode('cp932')
+	# u = b.decode('utf8')
+	return sjis
 
 
 def debug_msg(p):

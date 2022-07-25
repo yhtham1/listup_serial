@@ -46,30 +46,30 @@ def getusbname(p):
 	if 0x0403 == vid:  # FTDI
 		if pid == 0x6015:
 			if 'DN64A4H7A' == p.serial_number:
-				ans += ' NHK切り替え器 IF317 S/N:{}'.format(sn, p.manufacturer)
+				ans += ' S/N:{} --- NHK切り替え器 IF317 '.format(sn, p.manufacturer)
 			else:
 				ans += ' FT230X S/N:{}'.format(p.serial_number)
 		elif 0x6001 == pid:
 			if 'FTHGAIL5A' == p.serial_number:
-				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#1/6'
+				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
+				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(1,6)
 			elif 'A90DAHU5A' == p.serial_number:
-				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#2/6'
+				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
+				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(2,6)
 			elif 'A9GB069DA' == p.serial_number:
-				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#3/6'
+				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
+				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(3,6)
 			elif 'FTHG96PPA' == p.serial_number:
-				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#4/6'
+				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
+				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(4,6)
 			elif 'FTHG7WCXA' == p.serial_number:
-				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#5/6'
+				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
+				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(5,6)
 			elif 'FTHG80GEA' == p.serial_number:
-				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
-				ans += '#6/6'
+				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
+				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(6,6)
 			elif 'A10LU6Z5A' == p.serial_number:
-				ans += ' RS485 絶縁型 S/N:{}'.format(sn)
+				ans += ' S/N:{} --- RS485 絶縁型'.format(sn)
 			elif 'AQ00JKREA' == p.serial_number:
 				ans += ' RS485 DSD TECH SH-U11 S/N:{}'.format(sn)
 			elif 'FTBTXRP1A' == p.serial_number:

@@ -45,7 +45,10 @@ def getusbname(p):
 			ans += ' Oculus Rift-S '
 	if 0x0403 == vid:  # FTDI
 		if pid == 0x6015:
-			ans += ' FT230X S/N:{}'.format(p.serial_number)
+			if 'DN64A4H7A' == p.serial_number:
+				ans += ' NHK切り替え器 IF317 S/N:{}'.format(sn, p.manufacturer)
+			else:
+				ans += ' FT230X S/N:{}'.format(p.serial_number)
 		elif 0x6001 == pid:
 			if 'FTHGAIL5A' == p.serial_number:
 				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
@@ -65,6 +68,8 @@ def getusbname(p):
 			elif 'FTHG80GEA' == p.serial_number:
 				ans += ' 秋月の黒/グレイのやつ S/N:{} {} '.format(sn, p.manufacturer)
 				ans += '#6/6'
+			elif 'A10LU6Z5A' == p.serial_number:
+				ans += ' RS485 絶縁型 S/N:{}'.format(sn)
 			elif 'AQ00JKREA' == p.serial_number:
 				ans += ' RS485 DSD TECH SH-U11 S/N:{}'.format(sn)
 			elif 'FTBTXRP1A' == p.serial_number:

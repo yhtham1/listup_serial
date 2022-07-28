@@ -14,9 +14,6 @@ import serial.tools.list_ports
 # 5:FTHG80GEA
 # 6:FTHG80GEA
 
-
-
-
 def sjis2utf8( sjis ):
 	# b = sjis.encode('cp932')
 	# u = b.decode('utf8')
@@ -34,6 +31,8 @@ def debug_msg(p):
 	print('manufacturer :{}'.format(p.manufacturer))
 	print('product      :{}'.format(p.product))
 	print('interface    :{}'.format(p.interface))
+	print('vid          :{}'.format(p.vid))
+	print('pid          :{}'.format(p.pid))
 
 def extractSerial(p):	# 固有のシリアルナンバー抽出
 	ans = ''
@@ -70,7 +69,6 @@ def getusbname(p):
 	vid = p.vid
 	pid = p.pid
 	sn = p.serial_number
-	ans = ''
 	ans = extractSerial(p)
 	if 1<len(ans):
 		return ans
@@ -192,7 +190,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.setCentralWidget(widget)
 		h = self.makeLayout()
 		widget.setLayout(h)
-		self.setWindowTitle('LISTUP SERIAL PORTS 2022-07-25')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2022-07-29')
 		self.setGeometry(300, 50, 800, 80)
 
 def main():
@@ -205,3 +203,4 @@ def main():
 if __name__ == "__main__":
 	main()
 
+### EOF ###

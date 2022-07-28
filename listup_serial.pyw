@@ -35,11 +35,19 @@ def debug_msg(p):
 	print('product      :{}'.format(p.product))
 	print('interface    :{}'.format(p.interface))
 
+def extractSerial(p):
+	if 'DC008U81A' == p.serial_number:
+		return p.serial_number+' 黄色いタカチケース '
+	return ''
+
 def getusbname(p):
 	vid = p.vid
 	pid = p.pid
 	sn = p.serial_number
 	ans = ''
+	ans = extractSerial(p)
+	if 1<len(ans):
+		return ans
 	if 0x2833 == vid:  # FTDI
 		if pid == 0x0051:
 			ans += ' Oculus Rift-S '
@@ -76,7 +84,7 @@ def getusbname(p):
 				ans += ' RS485 EasySync S/N:{}'.format(sn)
 			else:
 				ans += ' FT232系 S/N:{} {} '.format(sn, p.manufacturer)
-	elif 0x0483 == vid :  # ST-MICRO
+	elif 0x0483 == vid:  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)
 		elif 0x374b == pid:

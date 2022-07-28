@@ -35,10 +35,36 @@ def debug_msg(p):
 	print('product      :{}'.format(p.product))
 	print('interface    :{}'.format(p.interface))
 
-def extractSerial(p):
-	if 'DC008U81A' == p.serial_number:
-		return p.serial_number+' 黄色いタカチケース '
-	return ''
+def extractSerial(p):	# 固有のシリアルナンバー抽出
+	ans = ''
+	sn = p.serial_number
+	if 'DC008U81A' == sn:
+		return sn+' 黄色いタカチケース '
+	if 'FTHGAIL5A' == sn:
+		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(1, 6)
+	elif 'A90DAHU5A' == sn:
+		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(2, 6)
+	elif 'A9GB069DA' == sn:
+		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(3, 6)
+	elif 'FTHG96PPA' == sn:
+		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(4, 6)
+	elif 'FTHG7WCXA' == sn:
+		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(5, 6)
+	elif 'FTHG80GEA' == sn:
+		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(6, 6)
+	elif 'A10LU6Z5A' == sn:
+		ans += ' S/N:{} --- RS485 絶縁型'.format(sn)
+	elif 'AQ00JKREA' == sn:
+		ans += ' RS485 DSD TECH SH-U11 S/N:{}'.format(sn)
+	elif 'FTBTXRP1A' == sn:
+		ans += ' RS485 EasySync S/N:{}'.format(sn)
+	return ans
 
 def getusbname(p):
 	vid = p.vid
@@ -58,32 +84,7 @@ def getusbname(p):
 			else:
 				ans += ' FT230X S/N:{}'.format(p.serial_number)
 		elif 0x6001 == pid:
-			if 'FTHGAIL5A' == p.serial_number:
-				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
-				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(1,6)
-			elif 'A90DAHU5A' == p.serial_number:
-				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
-				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(2,6)
-			elif 'A9GB069DA' == p.serial_number:
-				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
-				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(3,6)
-			elif 'FTHG96PPA' == p.serial_number:
-				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
-				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(4,6)
-			elif 'FTHG7WCXA' == p.serial_number:
-				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
-				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(5,6)
-			elif 'FTHG80GEA' == p.serial_number:
-				ans += ' S/N:{} {}'.format(sn, p.manufacturer)
-				ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(6,6)
-			elif 'A10LU6Z5A' == p.serial_number:
-				ans += ' S/N:{} --- RS485 絶縁型'.format(sn)
-			elif 'AQ00JKREA' == p.serial_number:
-				ans += ' RS485 DSD TECH SH-U11 S/N:{}'.format(sn)
-			elif 'FTBTXRP1A' == p.serial_number:
-				ans += ' RS485 EasySync S/N:{}'.format(sn)
-			else:
-				ans += ' FT232系 S/N:{} {} '.format(sn, p.manufacturer)
+			ans += ' FT232系 S/N:{} {} '.format(sn, p.manufacturer)
 	elif 0x0483 == vid:  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)

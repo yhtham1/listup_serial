@@ -140,7 +140,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			else:
 				com_1.append(cn)  # ソートキー
 			#			print('-------------cn:{}'.format(cn))
-			debug_msg(p)
+			# debug_msg(p)
 			if p.vid:
 				#				print('vid          :{:04X}'.format(p.vid           ))
 				#				print('pid          :{:04X}'.format(p.pid           ))

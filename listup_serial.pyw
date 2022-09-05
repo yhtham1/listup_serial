@@ -39,6 +39,9 @@ def extractSerial(p):	# 固有のシリアルナンバー抽出
 	sn = p.serial_number
 	if 'DC008U81A' == sn:
 		return sn+' 黄色いタカチケース '
+	if '010D4CE2' == sn:
+		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
+		ans += ' --- 半二重485ドングル'
 	if 'FTHGAIL5A' == sn:
 		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
 		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(1, 6)
@@ -140,7 +143,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			else:
 				com_1.append(cn)  # ソートキー
 			#			print('-------------cn:{}'.format(cn))
-			debug_msg(p)
+			# debug_msg(p)
 			if p.vid:
 				#				print('vid          :{:04X}'.format(p.vid           ))
 				#				print('pid          :{:04X}'.format(p.pid           ))

@@ -15,8 +15,6 @@ import serial.tools.list_ports
 # 6:FTHG80GEA
 
 
-
-
 def sjis2utf8( sjis ):
 	# b = sjis.encode('cp932')
 	# u = b.decode('utf8')
@@ -128,7 +126,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			else:
 				com_1.append(cn)  # ソートキー
 			#			print('-------------cn:{}'.format(cn))
-			debug_msg(p)
+			# debug_msg(p)
 			if p.vid:
 				#				print('vid          :{:04X}'.format(p.vid           ))
 				#				print('pid          :{:04X}'.format(p.pid           ))

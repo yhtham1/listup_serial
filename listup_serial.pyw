@@ -78,7 +78,7 @@ def getusbname(p):
 	if 0x0403 == vid:  # FTDI
 		if pid == 0x6015:
 			if 'DN64A4H7A' == p.serial_number:
-				ans += ' S/N:{} --- NHK切り替え器 IF317 '.format(sn, p.manufacturer)
+				ans += ' S/N:{} --- 切り替え器 IF317 '.format(sn, p.manufacturer)
 			else:
 				ans += ' FT230X S/N:{}'.format(p.serial_number)
 		elif 0x6001 == pid:

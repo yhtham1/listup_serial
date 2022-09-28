@@ -126,7 +126,6 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 
 		for p in sorted(com_list):  # COM番号でソートする
 			self.add_one_line(v1, p[1])  # ,p[2].description, p[2].hwid )
-		#		print(sorted(com_list))
 		v1.addStretch()
 
 		h1.addLayout(v1)
@@ -148,8 +147,6 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 
 	@QtCore.pyqtSlot()
 	def on_triggered(self):
-		# action = self.sender()
-		# r, c = action.data()
 		self.setSize()
 
 	def setSize(self):

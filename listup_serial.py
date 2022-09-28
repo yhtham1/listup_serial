@@ -15,12 +15,6 @@ import serial.tools.list_ports
 # 6:FTHG80GEA
 
 
-def sjis2utf8( sjis ):
-	# b = sjis.encode('cp932')
-	# u = b.decode('utf8')
-	return sjis
-
-
 def debug_msg(p):
 	print('----------------------------------------------------------')
 	print('device       :{}'.format(p.device))
@@ -121,15 +115,11 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			cn = p.device
 			if 0 == cn.find('COM'):  # ソートキーの抽出
 				cn1 = int(cn[3:])   # 'COM1'  'COM255'
-				#				print('{}->{}'.format(cn,cn1))
 				com_1.append(cn1)  # ソートキー
 			else:
 				com_1.append(cn)  # ソートキー
-			#			print('-------------cn:{}'.format(cn))
 			# debug_msg(p)
 			if p.vid:
-				#				print('vid          :{:04X}'.format(p.vid           ))
-				#				print('pid          :{:04X}'.format(p.pid           ))
 				p.description += getusbname(p)
 			com_1.append(p)  # ポート１個分のデータ		[1]
 			com_list.append(com_1)
@@ -142,9 +132,6 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		h1.addLayout(v1)
 		h1.addLayout(v2)
 		return h1
-
-	#		self.setLayout(h1)
-	#		self.setWindowTitle('LISTUP SERIAL PORTS')
 
 	def __init__(self, parent=None):
 		super(ListupSerialWindow, self).__init__(parent)

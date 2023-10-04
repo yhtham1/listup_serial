@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 # coding: utf-8
 
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtCore import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
+from PyQt5 import *
 import serial.tools.list_ports
 
 # 1:FTHGAIL5A
@@ -13,7 +14,6 @@ import serial.tools.list_ports
 # 4:FTHG96PPA
 # 5:FTHG80GEA
 # 6:FTHG80GEA
-
 
 
 def debug_msg(p):
@@ -122,7 +122,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		v2 = QVBoxLayout()
 
 		btn1 = QPushButton('QUIT')
-		btn1.clicked.connect(QCoreApplication.instance().quit)
+		btn1.clicked.connect(self.close)
 		v2.addWidget(btn1)
 		btn1 = QPushButton('REFRESH')
 		btn1.clicked.connect(self.setSize)
@@ -161,6 +161,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 
 	def __init__(self, parent=None):
 		super(ListupSerialWindow, self).__init__(parent)
+		self.settings = QSettings('listup_serial.txt',QSettings.IniFormat)
 		levels = [
 			(4, 4, "M refresh"),
 		]
@@ -171,6 +172,18 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 			action.triggered.connect(self.on_triggered)
 		r, c, _ = levels[0]
 		self.setSize()
+
+	def closeEvent(self, e):
+		# ------------------------------------------------------------ window位置の保存
+		self.settings.beginGroup('window')
+		self.settings.setValue("size", self.size())
+		self.settings.setValue("pos", self.pos())
+		self.settings.endGroup()
+		self.settings.sync()
+		# ------------------------------------------------------------ window位置の保存
+
+
+
 
 	@QtCore.pyqtSlot()
 	def on_triggered(self):
@@ -189,8 +202,15 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.setCentralWidget(widget)
 		h = self.makeLayout()
 		widget.setLayout(h)
-		self.setWindowTitle('LISTUP SERIAL PORTS 2022-12-19')
-		self.setGeometry(300, 50, 800, 80)
+		# ------------------------------------------------------------ window位置の再生
+		self.settings.beginGroup('window')
+		# 初回起動のサイズの指定とか、復元とか
+		self.resize(self.settings.value("size", QSize(900, 180)))
+		self.move(self.settings.value("pos", QPoint(0, 0)))
+		self.settings.endGroup()
+		# ------------------------------------------------------------ window位置の再生
+		self.setWindowTitle('LISTUP SERIAL PORTS 2023.10.04')
+		# self.setGeometry(300, 50, 800, 80)
 
 def main():
 	import sys

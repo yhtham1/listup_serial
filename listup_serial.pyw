@@ -155,7 +155,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		btn1.clicked.connect(self.close)
 		v2.addWidget(btn1)
 		btn1 = QPushButton('REFRESH')
-		btn1.clicked.connect(self.setSize)
+		btn1.clicked.connect(self.refresh)
 		v2.addWidget(btn1)
 		v2.addStretch()
 		com_list = []
@@ -199,14 +199,13 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		for r, c, name in levels:
 			action = menu.addAction(name)
 			action.setData((r, c))
-			action.triggered.connect(self.on_triggered)
+			action.triggered.connect(self.refresh)
 		r, c, _ = levels[0]
 		self.setSize()
 
 	@QtCore.pyqtSlot()
-	def on_triggered(self):
-		# action = self.sender()
-		# r, c = action.data()
+	def refresh(self):
+		self.savepos()
 		self.setSize()
 
 	def setSize(self):
@@ -230,7 +229,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.setWindowTitle('LISTUP SERIAL PORTS 2023.10.04')
 		# self.setGeometry(300, 50, 800, 80)
 
-	def closeEvent(self, e):
+	def savepos(self):
 		# ------------------------------------------------------------ window位置の保存
 		self.settings.beginGroup('window')
 		self.settings.setValue("size", self.size())
@@ -239,6 +238,9 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.settings.sync()
 		# ------------------------------------------------------------ window位置の保存
 
+
+	def closeEvent(self, e):
+		self.savepos()
 
 def main():
 	import sys

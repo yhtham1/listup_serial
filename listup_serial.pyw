@@ -16,6 +16,36 @@ import serial.tools.list_ports
 # 6:FTHG80GEA
 
 
+import screeninfo
+def get_desktop():
+	minx =  1000000
+	miny =  1000000
+	maxx = -1000000
+	maxy = -1000000
+	a = screeninfo.get_monitors()
+	for it in a:
+		minx = min(minx, it.x)
+		maxx = max(maxx, it.x+it.width)
+		miny = min(miny, it.y)
+		maxy = max(maxy, it.y + it.height)
+	return minx, maxx, miny, maxy
+
+def trim_position(x:int, y:int):
+	x1, x2, y1, y2 = get_desktop()
+	x = max(x1, x)
+	x = min(x2, x)
+	y = max(y1, y)
+	y = min(y2, y)
+	return x, y
+
+def Qtrim_position(qp:QPoint) -> QPoint:
+	x = int(qp.x())
+	y = int(qp.y())
+	x, y = trim_position(x,y)
+	ans = QPoint(x, y)
+	return ans
+
+
 def debug_msg(p):
 	print('----------------------------------------------------------')
 	print('device       :{}'.format(p.device))
@@ -173,18 +203,6 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		r, c, _ = levels[0]
 		self.setSize()
 
-	def closeEvent(self, e):
-		# ------------------------------------------------------------ window位置の保存
-		self.settings.beginGroup('window')
-		self.settings.setValue("size", self.size())
-		self.settings.setValue("pos", self.pos())
-		self.settings.endGroup()
-		self.settings.sync()
-		# ------------------------------------------------------------ window位置の保存
-
-
-
-
 	@QtCore.pyqtSlot()
 	def on_triggered(self):
 		# action = self.sender()
@@ -206,11 +224,21 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.settings.beginGroup('window')
 		# 初回起動のサイズの指定とか、復元とか
 		self.resize(self.settings.value("size", QSize(900, 180)))
-		self.move(self.settings.value("pos", QPoint(0, 0)))
+		self.move(Qtrim_position(self.settings.value("pos", QPoint(0, 0))))
 		self.settings.endGroup()
 		# ------------------------------------------------------------ window位置の再生
 		self.setWindowTitle('LISTUP SERIAL PORTS 2023.10.04')
 		# self.setGeometry(300, 50, 800, 80)
+
+	def closeEvent(self, e):
+		# ------------------------------------------------------------ window位置の保存
+		self.settings.beginGroup('window')
+		self.settings.setValue("size", self.size())
+		self.settings.setValue("pos", self.pos())
+		self.settings.endGroup()
+		self.settings.sync()
+		# ------------------------------------------------------------ window位置の保存
+
 
 def main():
 	import sys

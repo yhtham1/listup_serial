@@ -133,6 +133,31 @@ def getusbname(p):
 
 class ListupSerialWindow(QtWidgets.QMainWindow):
 	ports = []
+	def __init__(self, parent=None):
+		super(ListupSerialWindow, self).__init__(parent)
+		self.settings = QSettings('listup_serial.txt',QSettings.IniFormat)
+		levels = [
+			(4, 4, "M refresh"),
+		]
+		menu = self.menuBar().addMenu("&Menu")
+		for r, c, name in levels:
+			action = menu.addAction(name)
+			action.setData((r, c))
+			action.triggered.connect(self.refresh)
+		r, c, _ = levels[0]
+		self.setSize()
+
+	def savepos(self):
+		# ------------------------------------------------------------ window位置の保存
+		self.settings.beginGroup('window')
+		self.settings.setValue("size", self.size())
+		self.settings.setValue("pos", self.pos())
+		self.settings.endGroup()
+		self.settings.sync()
+		# ------------------------------------------------------------ window位置の保存
+
+	def closeEvent(self, e):
+		self.savepos()
 
 	@staticmethod
 	def add_one_line(layout, p):
@@ -186,22 +211,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		h1.addLayout(v2)
 		return h1
 
-	#		self.setLayout(h1)
-	#		self.setWindowTitle('LISTUP SERIAL PORTS')
 
-	def __init__(self, parent=None):
-		super(ListupSerialWindow, self).__init__(parent)
-		self.settings = QSettings('listup_serial.txt',QSettings.IniFormat)
-		levels = [
-			(4, 4, "M refresh"),
-		]
-		menu = self.menuBar().addMenu("&Menu")
-		for r, c, name in levels:
-			action = menu.addAction(name)
-			action.setData((r, c))
-			action.triggered.connect(self.refresh)
-		r, c, _ = levels[0]
-		self.setSize()
 
 	@QtCore.pyqtSlot()
 	def refresh(self):
@@ -229,18 +239,6 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.setWindowTitle('LISTUP SERIAL PORTS 2023.10.04')
 		# self.setGeometry(300, 50, 800, 80)
 
-	def savepos(self):
-		# ------------------------------------------------------------ window位置の保存
-		self.settings.beginGroup('window')
-		self.settings.setValue("size", self.size())
-		self.settings.setValue("pos", self.pos())
-		self.settings.endGroup()
-		self.settings.sync()
-		# ------------------------------------------------------------ window位置の保存
-
-
-	def closeEvent(self, e):
-		self.savepos()
 
 def main():
 	import sys

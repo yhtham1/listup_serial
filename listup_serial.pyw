@@ -232,7 +232,6 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		return h1
 
 
-
 	@QtCore.pyqtSlot()
 	def refresh(self):
 		self.savepos()

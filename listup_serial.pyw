@@ -87,7 +87,6 @@ vid_list = {
 	0x303A1001: 'LOLIN_C3_MINI',
 	0x303A1001: 'LOLIN_C3_MINI',
 	0x303A1001: 'LOLIN_C3_MINI',
-
 }
 
 
@@ -108,16 +107,21 @@ def getusbname(p):
 	print('DEBUG ---', type(p))
 	vid = p.vid
 	pid = p.pid
+	vpid = (vid <<16) + pid
 	sn = p.serial_number
 	ans = extractSerial(p)
 	if 1<len(ans):
 		return ans
-	if 0x303a == vid:  # FTDI
-		if pid == 0x1001:
-			ans += ' LOLIN_C3_MINI '
-	if 0x2833 == vid:  # FTDI
-		if pid == 0x0051:
-			ans += ' Oculus Rift-S '
+	try:
+		k = vid_list[vpid]
+	except KeyError:
+		print('err:{:08X}'.format(vpid))
+		k = None
+	if None != k:
+		ans += k
+
+	if 1 <len(sn):
+		ans += ' ' + sn
 	if 0x0403 == vid:  # FTDI
 		if pid == 0x6015:
 			if 'DN64A4H7A' == p.serial_number:
@@ -252,7 +256,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.move(Qtrim_position(self.settings.value("pos", QPoint(0, 0))))
 		self.settings.endGroup()
 		# ------------------------------------------------------------ window位置の再生
-		self.setWindowTitle('LISTUP SERIAL PORTS 2023.10.31')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2024.02.16')
 		# self.setGeometry(300, 50, 800, 80)
 
 

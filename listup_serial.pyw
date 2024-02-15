@@ -84,8 +84,8 @@ sn_list = {
 vid_list = {
 	0x303A1001: 'LOLIN_C3_MINI',
 	0x28330051: 'Oculus Rift-S' ,
-	0x303A1001: 'LOLIN_C3_MINI',
-	0x303A1001: 'LOLIN_C3_MINI',
+	0x04036015: 'FT-230X',
+	0x04036001: 'FT-230系',
 	0x303A1001: 'LOLIN_C3_MINI',
 }
 
@@ -96,9 +96,8 @@ def extractSerial(p):	# 固有のシリアルナンバー抽出
 	print('extractSerial:',p.serial_number)
 	try:
 		k = sn_list[p.serial_number]
-		print(k,p)
 		ans = ' S/N:[{}] {}'.format(p.serial_number, k)
-	except:
+	except KeyError:
 		pass
 	return ans
 
@@ -113,24 +112,16 @@ def getusbname(p):
 	if 1<len(ans):
 		return ans
 	try:
-		k = vid_list[vpid]
+		k = vid_list[vpid]+' '
 	except KeyError:
 		print('err:{:08X}'.format(vpid))
 		k = None
 	if None != k:
-		ans += k
+		ans += ' '+k
 
 	if 1 <len(sn):
-		ans += ' ' + sn
-	if 0x0403 == vid:  # FTDI
-		if pid == 0x6015:
-			if 'DN64A4H7A' == p.serial_number:
-				ans += ' S/N:{} --- NHK切り替え器 IF317 '.format(sn, p.manufacturer)
-			else:
-				ans += ' FT230X S/N:{}'.format(p.serial_number)
-		elif 0x6001 == pid:
-			ans += ' FT232系 S/N:{} {} '.format(sn, p.manufacturer)
-	elif 0x0483 == vid:  # ST-MICRO
+		ans += ' S/N:[{}]'.format(sn)
+	if 0x0483 == vid:  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)
 		elif 0x374b == pid:

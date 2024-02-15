@@ -6,6 +6,8 @@ from PyQt5.QtCore import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
 from PyQt5 import *
+from PyQt5.QtGui import *
+
 import serial.tools.list_ports
 
 # 1:FTHGAIL5A
@@ -14,6 +16,9 @@ import serial.tools.list_ports
 # 4:FTHG96PPA
 # 5:FTHG80GEA
 # 6:FTHG80GEA
+
+
+
 
 
 import screeninfo
@@ -60,47 +65,56 @@ def debug_msg(p):
 	print('vid          :{}'.format(p.vid))
 	print('pid          :{}'.format(p.pid))
 
+
+sn_list = {
+	'DC008U81A':' 黄色いタカチケース ',
+	'010D4CE2':' --- 半二重485ドングル',
+	'FTHGAIL5A':' --- 秋月の黒/グレイのやつ #1/6',
+	'A90DAHU5A':' --- 秋月の黒/グレイのやつ #2/6',
+	'A9GB069DA':' --- 秋月の黒/グレイのやつ #3/6',
+	'FTHG96PPA':' --- 秋月の黒/グレイのやつ #4/6',
+	'FTHG7WCXA':' --- 秋月の黒/グレイのやつ #5/6',
+	'FTHG80GEA':' --- 秋月の黒/グレイのやつ #6/6',
+	'A10LU6Z5A':' --- RS485 絶縁型',
+	'AQ00JKREA':' RS485 DSD TECH SH-U11 ',
+	'FTBTXRP1A':' RS485 EasySync ',
+	'DM001YKOA':' Red Pitaya UART ',
+}
+
+vid_list = {
+	0x303A1001: 'LOLIN_C3_MINI',
+	0x28330051: 'Oculus Rift-S' ,
+	0x303A1001: 'LOLIN_C3_MINI',
+	0x303A1001: 'LOLIN_C3_MINI',
+	0x303A1001: 'LOLIN_C3_MINI',
+
+}
+
+
+
 def extractSerial(p):	# 固有のシリアルナンバー抽出
 	ans = ''
-	sn = p.serial_number
-	if 'DC008U81A' == sn:
-		return sn+' 黄色いタカチケース '
-	if '010D4CE2' == sn:
-		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' --- 半二重485ドングル'
-	if 'FTHGAIL5A' == sn:
-		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(1, 6)
-	elif 'A90DAHU5A' == sn:
-		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(2, 6)
-	elif 'A9GB069DA' == sn:
-		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(3, 6)
-	elif 'FTHG96PPA' == sn:
-		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(4, 6)
-	elif 'FTHG7WCXA' == sn:
-		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(5, 6)
-	elif 'FTHG80GEA' == sn:
-		ans = ' S/N:{} {}'.format(sn, p.manufacturer)
-		ans += ' --- 秋月の黒/グレイのやつ #{}/{}'.format(6, 6)
-	elif 'A10LU6Z5A' == sn:
-		ans += ' S/N:{} --- RS485 絶縁型'.format(sn)
-	elif 'AQ00JKREA' == sn:
-		ans += ' RS485 DSD TECH SH-U11 S/N:{}'.format(sn)
-	elif 'FTBTXRP1A' == sn:
-		ans += ' RS485 EasySync S/N:{}'.format(sn)
+	print('extractSerial:',p.serial_number)
+	try:
+		k = sn_list[p.serial_number]
+		print(k,p)
+		ans = ' S/N:[{}] {}'.format(p.serial_number, k)
+	except:
+		pass
 	return ans
 
+
 def getusbname(p):
+	print('DEBUG ---', type(p))
 	vid = p.vid
 	pid = p.pid
 	sn = p.serial_number
 	ans = extractSerial(p)
 	if 1<len(ans):
 		return ans
+	if 0x303a == vid:  # FTDI
+		if pid == 0x1001:
+			ans += ' LOLIN_C3_MINI '
 	if 0x2833 == vid:  # FTDI
 		if pid == 0x0051:
 			ans += ' Oculus Rift-S '
@@ -125,7 +139,7 @@ def getusbname(p):
 		elif p.serial_number == '023592EE':
 			ans = ' M5Stack Core2 ' + ' S/N:{}'.format(p.serial_number)
 		else:
-			ans = ' S/N:{}'.format(p.serial_number)
+			ans = 'CP210X S/N:{}'.format(p.serial_number)
 	if ans == '':
 		ans = ' ----VID:{:04X} PID:{:04X} '.format(vid, pid)
 	return ans
@@ -135,6 +149,8 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 	ports = []
 	def __init__(self, parent=None):
 		super(ListupSerialWindow, self).__init__(parent)
+		self.setFont(QFont('ＭＳ ゴシック'))
+
 		self.settings = QSettings('listup_serial.txt',QSettings.IniFormat)
 		levels = [
 			(4, 4, "M refresh"),
@@ -236,7 +252,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.move(Qtrim_position(self.settings.value("pos", QPoint(0, 0))))
 		self.settings.endGroup()
 		# ------------------------------------------------------------ window位置の再生
-		self.setWindowTitle('LISTUP SERIAL PORTS 2023.10.04')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2023.10.31')
 		# self.setGeometry(300, 50, 800, 80)
 
 

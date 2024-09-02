@@ -18,9 +18,6 @@ import serial.tools.list_ports
 # 6:FTHG80GEA
 
 
-
-
-
 import screeninfo
 def get_desktop():
 	minx =  1000000
@@ -73,12 +70,14 @@ sn_list = {
 	'A90DAHU5A':' --- 秋月の黒/グレイのやつ #2/6',
 	'A9GB069DA':' --- 秋月の黒/グレイのやつ #3/6',
 	'FTHG96PPA':' --- 秋月の黒/グレイのやつ #4/6',
+	'FT9H5BBSA': ' --- 秋月の黒/グレイのやつ #4/6',
 	'FTHG7WCXA':' --- 秋月の黒/グレイのやつ #5/6',
 	'FTHG80GEA':' --- 秋月の黒/グレイのやつ #6/6',
 	'A10LU6Z5A':' --- RS485 絶縁型',
 	'AQ00JKREA':' RS485 DSD TECH SH-U11 ',
 	'FTBTXRP1A':' RS485 EasySync ',
 	'DM001YKOA':' Red Pitaya UART ',
+	'DM90YJQIA': ' Red Pitaya UART ',
 }
 
 vid_list = {
@@ -119,8 +118,11 @@ def getusbname(p):
 	if None != k:
 		ans += ' '+k
 
-	if 1 <len(sn):
-		ans += ' S/N:[{}]'.format(sn)
+	if None != sn:
+		if 1 <len(sn):
+			ans += ' S/N:[{}]'.format(sn)
+	else:
+		ans +=' NO S/N'
 	if 0x0483 == vid:  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)
@@ -246,7 +248,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.move(Qtrim_position(self.settings.value("pos", QPoint(0, 0))))
 		self.settings.endGroup()
 		# ------------------------------------------------------------ window位置の再生
-		self.setWindowTitle('LISTUP SERIAL PORTS 2024.02.16')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2024.04.16')
 		# self.setGeometry(300, 50, 800, 80)
 
 

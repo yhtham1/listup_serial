@@ -249,7 +249,7 @@ class ListupSerialWindow(QMainWindow):
 		self.move(Qtrim_position(self.settings.value("pos", QPoint(0, 0))))
 		self.settings.endGroup()
 		# ------------------------------------------------------------ window位置の再生
-		self.setWindowTitle('LISTUP SERIAL PORTS 2024.04.16')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2024.09.25')
 		# self.setGeometry(300, 50, 800, 80)
 
 

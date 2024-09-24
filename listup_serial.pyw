@@ -73,6 +73,7 @@ sn_list = {
 	'FT9H5BBSA': ' --- 秋月の黒/グレイのやつ #4/6',
 	'FTHG7WCXA':' --- 秋月の黒/グレイのやつ #5/6',
 	'FTHG80GEA':' --- 秋月の黒/グレイのやつ #6/6',
+	'A10NGJAKA': ' --- アルマジロ開発キット1',
 	'A10LU6Z5A':' --- RS485 絶縁型',
 	'AQ00JKREA':' RS485 DSD TECH SH-U11 ',
 	'FTBTXRP1A':' RS485 EasySync ',

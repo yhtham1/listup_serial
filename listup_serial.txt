@@ -1,3 +1,0 @@
-[window]
-size=@Size(979 166)
-pos=@Point(377 710)

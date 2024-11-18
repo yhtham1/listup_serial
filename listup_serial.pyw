@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 # coding: utf-8
 
-from PySide6.QtCore import *
-from PySide6 import QtCore, QtGui, QtWidgets
-from PySide6.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
-from PySide6 import *
-from PySide6.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
+from PyQt5 import *
+from PyQt5.QtGui import *
 
 import serial.tools.list_ports
 
@@ -223,7 +223,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		return h1
 
 
-	@QtCore.Slot()
+	@QtCore.pyqtSlot()
 	def refresh(self):
 		self.savepos()
 		self.setSize()
@@ -246,7 +246,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		self.move(Qtrim_position(self.settings.value("pos", QPoint(0, 0))))
 		self.settings.endGroup()
 		# ------------------------------------------------------------ window位置の再生
-		self.setWindowTitle('LISTUP SERIAL PORTS 2024.11.19')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2024.02.16')
 		# self.setGeometry(300, 50, 800, 80)
 
 

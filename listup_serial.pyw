@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 # coding: utf-8
 
-from PySide6 import QtCore
 from PySide6.QtCore import *
-from PySide6.QtWidgets import *
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
+from PySide6 import *
 from PySide6.QtGui import *
-
 
 import serial.tools.list_ports
 
@@ -16,6 +16,9 @@ import serial.tools.list_ports
 # 4:FTHG96PPA
 # 5:FTHG80GEA
 # 6:FTHG80GEA
+
+
+
 
 
 import screeninfo
@@ -70,15 +73,12 @@ sn_list = {
 	'A90DAHU5A':' --- 秋月の黒/グレイのやつ #2/6',
 	'A9GB069DA':' --- 秋月の黒/グレイのやつ #3/6',
 	'FTHG96PPA':' --- 秋月の黒/グレイのやつ #4/6',
-	'FT9H5BBSA': ' --- 秋月の黒/グレイのやつ #4/6',
 	'FTHG7WCXA':' --- 秋月の黒/グレイのやつ #5/6',
 	'FTHG80GEA':' --- 秋月の黒/グレイのやつ #6/6',
-	'A10NGJAKA': ' --- アルマジロ開発キット1',
 	'A10LU6Z5A':' --- RS485 絶縁型',
 	'AQ00JKREA':' RS485 DSD TECH SH-U11 ',
 	'FTBTXRP1A':' RS485 EasySync ',
 	'DM001YKOA':' Red Pitaya UART ',
-	'DM90YJQIA': ' Red Pitaya UART ',
 }
 
 vid_list = {
@@ -119,11 +119,8 @@ def getusbname(p):
 	if None != k:
 		ans += ' '+k
 
-	if None != sn:
-		if 1 <len(sn):
-			ans += ' S/N:[{}]'.format(sn)
-	else:
-		ans +=' NO S/N'
+	if 1 <len(sn):
+		ans += ' S/N:[{}]'.format(sn)
 	if 0x0483 == vid:  # ST-MICRO
 		if 0x3752 == pid:
 			ans = ' ST-LINK FRISK {}'.format(sn)
@@ -143,7 +140,7 @@ def getusbname(p):
 	return ans
 
 
-class ListupSerialWindow(QMainWindow):
+class ListupSerialWindow(QtWidgets.QMainWindow):
 	ports = []
 	def __init__(self, parent=None):
 		super(ListupSerialWindow, self).__init__(parent)
@@ -238,7 +235,7 @@ class ListupSerialWindow(QMainWindow):
 			widget.deleteLater()
 		self.ports = list(serial.tools.list_ports.comports())
 		# create new container
-		widget = QWidget()
+		widget = QtWidgets.QWidget()
 		self.setCentralWidget(widget)
 		h = self.makeLayout()
 		widget.setLayout(h)
@@ -249,16 +246,16 @@ class ListupSerialWindow(QMainWindow):
 		self.move(Qtrim_position(self.settings.value("pos", QPoint(0, 0))))
 		self.settings.endGroup()
 		# ------------------------------------------------------------ window位置の再生
-		self.setWindowTitle('LISTUP SERIAL PORTS 2024.09.25')
+		self.setWindowTitle('LISTUP SERIAL PORTS 2024.11.19')
 		# self.setGeometry(300, 50, 800, 80)
 
 
 def main():
 	import sys
-	app = QApplication(sys.argv)
+	app = QtWidgets.QApplication(sys.argv)
 	w = ListupSerialWindow()
 	w.show()
-	sys.exit(app.exec())
+	sys.exit(app.exec_())
 
 if __name__ == "__main__":
 	main()

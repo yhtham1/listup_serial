@@ -72,13 +72,15 @@ sn_list = {
 	'FTHGAIL5A':' --- 秋月の黒/グレイのやつ #1/6',
 	'A90DAHU5A':' --- 秋月の黒/グレイのやつ #2/6',
 	'A9GB069DA':' --- 秋月の黒/グレイのやつ #3/6',
-	'FTHG96PPA':' --- 秋月の黒/グレイのやつ #4/6',
+	'FT9H5BBSA':' --- 秋月の黒/グレイのやつ #4/6',
 	'FTHG7WCXA':' --- 秋月の黒/グレイのやつ #5/6',
 	'FTHG80GEA':' --- 秋月の黒/グレイのやつ #6/6',
 	'A10LU6Z5A':' --- RS485 絶縁型',
 	'AQ00JKREA':' RS485 DSD TECH SH-U11 ',
 	'FTBTXRP1A':' RS485 EasySync ',
 	'DM001YKOA':' Red Pitaya UART ',
+	'PYNQZ2B'  :' PYNQ-Z2 ',
+
 }
 
 vid_list = {
@@ -108,6 +110,8 @@ def getusbname(p):
 	pid = p.pid
 	vpid = (vid <<16) + pid
 	sn = p.serial_number
+	if None == sn:
+		sn = ''
 	ans = extractSerial(p)
 	if 1<len(ans):
 		return ans

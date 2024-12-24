@@ -2,11 +2,20 @@
 # -*- coding: utf-8 -*-
 # coding: utf-8
 
-from PyQt5.QtCore import *
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
-from PyQt5 import *
-from PyQt5.QtGui import *
+# from PyQt5.QtCore import *
+# from PyQt5 import QtCore, QtGui, QtWidgets
+# from PyQt5.QtWidgets import QWidget, QApplication, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QLineEdit
+# from PyQt5 import *
+# from PyQt5.QtGui import *
+
+
+from PySide6 import QtCore, QtWidgets
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
+from PySide6.QtGui import *
+
+
+
 
 import serial.tools.list_ports
 
@@ -227,7 +236,7 @@ class ListupSerialWindow(QtWidgets.QMainWindow):
 		return h1
 
 
-	@QtCore.pyqtSlot()
+	@QtCore.Slot()
 	def refresh(self):
 		self.savepos()
 		self.setSize()
@@ -259,7 +268,7 @@ def main():
 	app = QtWidgets.QApplication(sys.argv)
 	w = ListupSerialWindow()
 	w.show()
-	sys.exit(app.exec_())
+	sys.exit(app.exec())
 
 if __name__ == "__main__":
 	main()
